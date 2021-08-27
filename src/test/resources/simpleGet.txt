@@ -1,0 +1,38 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+get request: OK
+=========================
+Session:
+Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@434d148, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@105cb8b8, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> ),OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$529/0x0000000800604840@1e8ad005,io.netty.channel.nio.NioEventLoop@60723d6a)
+=========================
+HTTP request:
+GET https://httpbin.org/get
+headers:
+	accept: */*
+	host: httpbin.org
+=========================
+HTTP response:
+status:
+	200 OK
+headers:
+	Date: Wed, 25 Aug 2021 08:31:38 GMT
+	Content-Type: application/json
+	Connection: keep-alive
+	Server: gunicorn/19.9.0
+	Access-Control-Allow-Origin: *
+	Access-Control-Allow-Credentials: true
+	content-length: 223
+
+body:
+{
+  "args": {},
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "X-Amzn-Trace-Id": "Root=1-6125ffea-3e25d40360dd3cc425c1a26f"
+  },
+  "origin": "2.2.2.2",
+  "url": "https://httpbin.org/get"
+}
+
+<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -1,0 +1,51 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+post request: KO jsonPath($.origin).find.is(1.1.1.1), but actually found 2.2.2.2
+=========================
+Session:
+Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@72dcbe5f, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@9646ea9, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> ),KO,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$558/0x000000080065b840@5205309,io.netty.channel.nio.NioEventLoop@3241713e)
+=========================
+HTTP request:
+POST https://httpbin.org/post
+headers:
+	accept: application/json
+	host: httpbin.org
+	content-type: application/json
+	content-length: 29
+body:StringChunksRequestBody{contentType='application/json', charset=UTF-8, content={
+  "someKey" : "someValue"
+}}
+=========================
+HTTP response:
+status:
+	200 OK
+headers:
+	Date: Fri, 27 Aug 2021 08:58:01 GMT
+	Content-Type: application/json
+	Connection: keep-alive
+	Server: gunicorn/19.9.0
+	Access-Control-Allow-Origin: *
+	Access-Control-Allow-Credentials: true
+	content-length: 433
+
+body:
+{
+  "args": {},
+  "data": "{\n  \"someKey\" : \"someValue\"\n}",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "application/json",
+    "Content-Length": "29",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "X-Amzn-Trace-Id": "Root=1-6128a919-7d81641a7210d573410c6592"
+  },
+  "json": {
+    "someKey": "someValue"
+  },
+  "origin": "2.2.2.2",
+  "url": "https://httpbin.org/post"
+}
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
