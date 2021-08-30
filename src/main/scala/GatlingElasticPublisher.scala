@@ -11,8 +11,8 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class GatlingElasticPublisher(context: Context,
                               errorReporter: ErrorReporter,
-                              settings: Settings, properties:
-                                  ElasticsearchProperties,
+                              settings: Settings,
+                              properties: ElasticsearchProperties,
                               headers: HttpRequestHeaders)
   extends AbstractElasticsearchPublisher[ILoggingEvent](context, errorReporter, settings, properties, headers) {
 
@@ -23,21 +23,21 @@ class GatlingElasticPublisher(context: Context,
   override def serializeCommonFields(gen: JsonGenerator, event: ILoggingEvent): Unit = {
     gen.writeObjectField("@timestamp", getTimestamp(event.getTimeStamp))
 
-    val fullMessage = event.getFormattedMessage
+    val message = formatMessageBySize(event.getFormattedMessage)
 
     val wsEvent = event.getLoggerName.contains("io.gatling.http.action.ws")
+    val httpEvent = event.getLoggerName.contains("io.gatling.http.engine.response")
+    val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
-    if (!wsEvent && (event.getLevel == DEBUG || event.getLevel == TRACE)) GatlingLogParser.httpFields(gen, fullMessage)
+    if (httpEvent && levelCondition) {
+      GatlingLogParser.httpFields(gen, message)
+    }
+    else if (wsEvent && levelCondition) {
+      GatlingLogParser.wsFields(gen, message)
+    }
     else if (settings.isRawJsonMessage) {
       gen.writeFieldName("message")
-      gen.writeRawValue(fullMessage)
-    }
-    else {
-      var formattedMessage = fullMessage
-      if (settings.getMaxMessageSize > 0 && formattedMessage.length > settings.getMaxMessageSize)
-        formattedMessage = formattedMessage.substring(0, settings.getMaxMessageSize) + ".."
-      gen.writeObjectField("message", formattedMessage)
-      if (wsEvent) gen.writeObjectField("protocol", "ws")
+      gen.writeRawValue(event.getFormattedMessage)
     }
 
     if (settings.isIncludeMdc) {
@@ -46,6 +46,12 @@ class GatlingElasticPublisher(context: Context,
       }
     }
 
+  }
+
+  def formatMessageBySize(message: String): String = {
+    if (settings.getMaxMessageSize > 0 && message.length > settings.getMaxMessageSize)
+      message.substring(0, settings.getMaxMessageSize) + ".."
+    else message
   }
 
 }

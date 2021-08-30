@@ -65,4 +65,9 @@ object GatlingLogParser {
     gen.writeObjectField("protocol", "http")
   }
 
+  def wsFields(gen: JsonGenerator, fullMessage: String): Unit = {
+    gen.writeObjectField("message", fullMessage)
+    gen.writeObjectField("protocol", "ws")
+  }
+
 }
