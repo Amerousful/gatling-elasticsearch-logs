@@ -6,8 +6,10 @@ object GatlingLogParser {
     val separator = "========================="
 
     // Gatling since 3.4.2 write two logs instead one.
-    // First log only with message and not useful for us. Parse and send log only with separator.
-    if (!fullMessage.contains(separator)) {}
+    // First log only with message.
+    if (!fullMessage.contains(separator)) {
+      gen.writeObjectField("message", fullMessage)
+    }
     else {
       val partOfMessage = fullMessage.split(separator)
       val infoPart = partOfMessage(0)
