@@ -48,8 +48,14 @@ object GatlingLogParser {
       }
       val requestHeadersPattern(requestHeadersRaw) = requestPart
       val requestHeaders = requestHeadersRaw.replaceAll("\t", "")
-      val statusPattern(statusCode) = responsePart
-      val responseHeadersPattern(responseHeadersRaw) = responsePart
+      val statusCode = responsePart match {
+        case statusPattern(result) => result
+        case _ => "%empty%"
+      }
+      val responseHeadersRaw = responsePart match {
+        case responseHeadersPattern(result) => result
+        case _ => "%empty%"
+      }
       val responseHeaders = responseHeadersRaw.replaceAll("\t", "")
 
       val sessionNamePattern(scenario) = session

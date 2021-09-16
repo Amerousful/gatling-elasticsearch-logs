@@ -1,0 +1,15 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+get request: KO i.g.h.c.i.RequestTimeoutException: Request timeout to www.httpbin.org/54.156.165.4:443 after 60000 ms
+=========================
+Session:
+Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@434d148, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@105cb8b8, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> ),OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$529/0x0000000800604840@1e8ad005,io.netty.channel.nio.NioEventLoop@60723d6a)
+=========================
+HTTP request:
+GET https://httpbin.org/get
+headers:
+	accept: */*
+	host: httpbin.org
+=========================
+HTTP response:
+<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -53,4 +53,13 @@ class HttpLogTests extends AnyFunSuite {
     )
   }
 
+  test("Without response body") {
+    val result = parseHttpLog("withoutResponse.txt")
+    softAssert(
+      withClue("Response body: ")(result("response_body") should be("%empty%")),
+      withClue("Response headers: ")(result("response_headers") should be("%empty%")),
+      withClue("Status code: ")(result("status_code") should be("%empty%"))
+    )
+  }
+
 }
