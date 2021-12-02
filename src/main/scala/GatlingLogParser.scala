@@ -17,7 +17,7 @@ object GatlingLogParser {
       val requestPart = partOfMessage(2)
       val responsePart = partOfMessage(3)
 
-      val firstPattern = """Request:\n(.*?):\s(.*)""".r.unanchored
+      val firstPattern = """Request:\n(.*):\s(.*)""".r.unanchored
       val secondPattern = """Session:\n(.*)""".r.unanchored
       val methodAndUrlPattern = """HTTP request:\n(\w+)\s(.*)""".r.unanchored
       val requestBodyPattern = """body:([\s\S]*)\n""".r.unanchored
