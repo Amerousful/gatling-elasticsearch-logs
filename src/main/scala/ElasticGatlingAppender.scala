@@ -3,10 +3,10 @@ import com.internetitem.logback.elasticsearch.AbstractElasticsearchAppender
 
 import scala.util.control.Breaks.break
 
-class ElasticGatlingAppender extends AbstractElasticsearchAppender[ILoggingEvent] {
+class ElasticGatlingAppender extends AbstractElasticsearchAppender[ILoggingEvent] with ParseGatlingLogSettings {
 
   override def buildElasticsearchPublisher(): GatlingElasticPublisher = {
-    new GatlingElasticPublisher(getContext, errorReporter, settings, elasticsearchProperties, headers)
+    new GatlingElasticPublisher(getContext, errorReporter, settings, elasticsearchProperties, headers, gatlingLogSettings)
   }
 
   override def appendInternal(eventObject: ILoggingEvent): Unit = {

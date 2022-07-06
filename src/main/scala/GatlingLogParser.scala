@@ -2,7 +2,7 @@ import com.fasterxml.jackson.core.JsonGenerator
 
 object GatlingLogParser {
 
-  def httpFields(gen: JsonGenerator, fullMessage: String): Unit = {
+  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: String): Unit = {
     val separator = "========================="
 
     // Gatling since 3.4.2 write two logs instead one.
@@ -61,6 +61,18 @@ object GatlingLogParser {
       val sessionNamePattern(scenario) = session
       val userIdPattern = s"""$scenario,(\\d+),""".r.unanchored
       val userIdPattern(userId) = session
+
+      if (extractSessionAttributes.nonEmpty) {
+        val allParamsPattern = """Map\(([^)]*)\)""".r.unanchored
+        val allParamsPattern(sessionParams) = session
+        val extract = extractSessionAttributes.split(";")
+        val sessionParamsMap = sessionParams.split(",").map(_.split("->") match {
+          case Array(k, v) => (k.trim, v.trim)
+        }).toMap
+        extract.filter(sessionParamsMap.contains).foreach { attr =>
+          gen.writeObjectField(attr, sessionParamsMap(attr))
+        }
+      }
 
       gen.writeObjectField("message", message)
       gen.writeObjectField("method", method)

@@ -62,4 +62,12 @@ class HttpLogTests extends AnyFunSuite {
     )
   }
 
+  test("Extract Session Attributes") {
+    val result = parseHttpLog("simplePost.txt")
+    softAssert(
+      withClue("Param[1] gatling.http.cache.baseUrl")(result("gatling.http.cache.baseUrl") should be("https://httpbin.org")),
+      withClue("Param[2] gatling.http.cache.dns")(result("gatling.http.cache.dns") should be("io.gatling.http.resolver.ShufflingNameResolver@9646ea9")),
+    )
+  }
+
 }

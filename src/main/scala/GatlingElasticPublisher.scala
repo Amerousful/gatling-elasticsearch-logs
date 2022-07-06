@@ -13,7 +13,8 @@ class GatlingElasticPublisher(context: Context,
                               errorReporter: ErrorReporter,
                               settings: Settings,
                               properties: ElasticsearchProperties,
-                              headers: HttpRequestHeaders)
+                              headers: HttpRequestHeaders,
+                              gatlingLogSettings: GatlingLogSettings)
   extends AbstractElasticsearchPublisher[ILoggingEvent](context, errorReporter, settings, properties, headers) {
 
   override def buildPropertyAndEncoder(context: Context, property: Property): AbstractPropertyAndEncoder[ILoggingEvent] = {
@@ -23,6 +24,8 @@ class GatlingElasticPublisher(context: Context,
   override def serializeCommonFields(gen: JsonGenerator, event: ILoggingEvent): Unit = {
     gen.writeObjectField("@timestamp", getTimestamp(event.getTimeStamp))
 
+    val extractSessionAttributes = gatlingLogSettings.extractSessionAttributes
+
     val message = formatMessageBySize(event.getFormattedMessage)
 
     val wsEvent = event.getLoggerName.contains("io.gatling.http.action.ws")
@@ -30,7 +33,7 @@ class GatlingElasticPublisher(context: Context,
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
     if (httpEvent && levelCondition) {
-      GatlingLogParser.httpFields(gen, message)
+      GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
     }
     else if (wsEvent && levelCondition) {
       GatlingLogParser.wsFields(gen, message)

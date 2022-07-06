@@ -1,5 +1,5 @@
 ThisBuild / organization := "io.github.amerousful"
-ThisBuild / scalaVersion := "2.13.3"
+ThisBuild / scalaVersion := "2.13.8"
 ThisBuild / versionScheme := Some("pvp")
 
 ThisBuild / scmInfo := Some(
