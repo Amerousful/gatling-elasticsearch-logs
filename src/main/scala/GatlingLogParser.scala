@@ -63,14 +63,14 @@ object GatlingLogParser {
       val userIdPattern(userId) = session
 
       if (extractSessionAttributes.nonEmpty) {
-        val allParamsPattern = """Map\(([^)]*)\)""".r.unanchored
-        val allParamsPattern(sessionParams) = session
         val extract = extractSessionAttributes.split(";")
-        val sessionParamsMap = sessionParams.split(",").map(_.split("->") match {
-          case Array(k, v) => (k.trim, v.trim)
-        }).toMap
-        extract.filter(sessionParamsMap.contains).foreach { attr =>
-          gen.writeObjectField(attr, sessionParamsMap(attr))
+        extract.foreach { key =>
+          val regex = raw"""$key\s->\s([^,]*)""".r.unanchored
+
+          session match {
+            case regex(value) => gen.writeObjectField(key, value)
+            case _ =>
+          }
         }
       }
 
