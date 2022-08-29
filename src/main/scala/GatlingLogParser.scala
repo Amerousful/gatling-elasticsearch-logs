@@ -2,7 +2,7 @@ import com.fasterxml.jackson.core.JsonGenerator
 
 object GatlingLogParser {
 
-  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: String): Unit = {
+  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String]): Unit = {
     val separator = "========================="
 
     // Gatling since 3.4.2 write two logs instead one.

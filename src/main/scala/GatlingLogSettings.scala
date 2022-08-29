@@ -1,5 +1,5 @@
 class GatlingLogSettings {
 
-  var extractSessionAttributes: String = _
+  var extractSessionAttributes: Option[String] = None
 
 }

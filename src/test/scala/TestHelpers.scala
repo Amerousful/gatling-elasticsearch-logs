@@ -22,7 +22,7 @@ object TestHelpers {
     generator.useDefaultPrettyPrinter
     generator.writeStartObject()
 
-    httpFields(generator, fullMessage, "gatling.http.cache.baseUrl;gatling.http.cache.dns")
+    httpFields(generator, fullMessage, Some("gatling.http.cache.baseUrl;gatling.http.cache.dns"))
 
     generator.close()
     jsonObjectWriter.toString
