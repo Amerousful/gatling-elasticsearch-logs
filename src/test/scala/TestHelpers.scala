@@ -18,7 +18,7 @@ object TestHelpers {
 
   private def fetchContent(fullMessage: String): String = {
     val jsonObjectWriter = new StringWriter
-    val generator = factory.createGenerator(jsonObjectWriter)
+    val generator        = factory.createGenerator(jsonObjectWriter)
     generator.useDefaultPrettyPrinter
     generator.writeStartObject()
 
@@ -35,7 +35,7 @@ object TestHelpers {
     val parsedContent = fetchContent(raw)
 
     // parse and add to map for test
-    val parser = factory.createParser(parsedContent)
+    val parser                                  = factory.createParser(parsedContent)
     val result: mutable.HashMap[String, String] = new mutable.HashMap
 
     if (parser.nextToken().equals(JsonToken.START_OBJECT)) {

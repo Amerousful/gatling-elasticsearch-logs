@@ -15,7 +15,7 @@ class GatlingElasticPublisher(context: Context,
                               properties: ElasticsearchProperties,
                               headers: HttpRequestHeaders,
                               gatlingLogSettings: GatlingLogSettings)
-  extends AbstractElasticsearchPublisher[ILoggingEvent](context, errorReporter, settings, properties, headers) {
+    extends AbstractElasticsearchPublisher[ILoggingEvent](context, errorReporter, settings, properties, headers) {
 
   override def buildPropertyAndEncoder(context: Context, property: Property): AbstractPropertyAndEncoder[ILoggingEvent] = {
     new ClassicPropertyAndEncoder(property, context)
@@ -28,17 +28,15 @@ class GatlingElasticPublisher(context: Context,
 
     val message = formatMessageBySize(event.getFormattedMessage)
 
-    val wsEvent = event.getLoggerName.contains("io.gatling.http.action.ws")
-    val httpEvent = event.getLoggerName.contains("io.gatling.http.engine.response")
+    val wsEvent        = event.getLoggerName.contains("io.gatling.http.action.ws")
+    val httpEvent      = event.getLoggerName.contains("io.gatling.http.engine.response")
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
     if (httpEvent && levelCondition) {
       GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
-    }
-    else if (wsEvent && levelCondition) {
+    } else if (wsEvent && levelCondition) {
       GatlingLogParser.wsFields(gen, message)
-    }
-    else if (settings.isRawJsonMessage) {
+    } else if (settings.isRawJsonMessage) {
       gen.writeFieldName("message")
       gen.writeRawValue(event.getFormattedMessage)
     }
