@@ -2,25 +2,24 @@ import com.fasterxml.jackson.core.JsonGenerator
 
 object GatlingLogParser {
 
-  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: String): Unit = {
+  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String]): Unit = {
     val separator = "========================="
 
     // Gatling since 3.4.2 write two logs instead one.
     // First log only with message.
     if (!fullMessage.contains(separator)) {
       gen.writeObjectField("message", fullMessage)
-    }
-    else {
+    } else {
       val partOfMessage = fullMessage.split(separator)
-      val infoPart = partOfMessage(0)
-      val sessionPart = partOfMessage(1)
-      val requestPart = partOfMessage(2)
-      val responsePart = partOfMessage(3)
+      val infoPart      = partOfMessage(0)
+      val sessionPart   = partOfMessage(1)
+      val requestPart   = partOfMessage(2)
+      val responsePart  = partOfMessage(3)
 
-      val firstPattern = """Request:\n(.*):\s(.*)""".r.unanchored
-      val secondPattern = """Session:\n(.*)""".r.unanchored
+      val firstPattern        = """Request:\n(.*):\s(.*)""".r.unanchored
+      val secondPattern       = """Session:\n(.*)""".r.unanchored
       val methodAndUrlPattern = """HTTP request:\n(\w+)\s(.*)""".r.unanchored
-      val requestBodyPattern = """body:([\s\S]*)\n""".r.unanchored
+      val requestBodyPattern  = """body:([\s\S]*)\n""".r.unanchored
       val responseBodyPattern = """body:\n([\s\S]*)\n""".r.unanchored
       val requestHeadersPattern = {
         if (requestPart.contains("byteArraysBody")) """headers:\n\t([\s\S]*)\nbyteArraysBody""".r.unanchored
@@ -29,47 +28,46 @@ object GatlingLogParser {
       }
       val responseHeadersPattern = """headers:\n\t([\s\S]*?)\n\n""".r.unanchored
 
-      val statusPattern = """status:\n\t(\d{3})""".r.unanchored
+      val statusPattern      = """status:\n\t(\d{3})""".r.unanchored
       val sessionNamePattern = """Session\((.*?),""".r.unanchored
 
-
       val firstPattern(requestName, messageRaw) = infoPart
-      val message = messageRaw.trim
-      val secondPattern(session) = sessionPart
-      val methodAndUrlPattern(method, url) = requestPart
+      val message                               = messageRaw.trim
+      val secondPattern(session)                = sessionPart
+      val methodAndUrlPattern(method, url)      = requestPart
 
       val requestBody = requestPart match {
         case requestBodyPattern(result) => result
-        case _ => "%empty%"
+        case _                          => "%empty%"
       }
       val responseBody = responsePart match {
         case responseBodyPattern(result) => result
-        case _ => "%empty%"
+        case _                           => "%empty%"
       }
       val requestHeadersPattern(requestHeadersRaw) = requestPart
-      val requestHeaders = requestHeadersRaw.replaceAll("\t", "")
+      val requestHeaders                           = requestHeadersRaw.replaceAll("\t", "")
       val statusCode = responsePart match {
         case statusPattern(result) => result
-        case _ => "%empty%"
+        case _                     => "%empty%"
       }
       val responseHeadersRaw = responsePart match {
         case responseHeadersPattern(result) => result
-        case _ => "%empty%"
+        case _                              => "%empty%"
       }
       val responseHeaders = responseHeadersRaw.replaceAll("\t", "")
 
       val sessionNamePattern(scenario) = session
-      val userIdPattern = s"""$scenario,(\\d+),""".r.unanchored
-      val userIdPattern(userId) = session
+      val userIdPattern                = s"""$scenario,(\\d+),""".r.unanchored
+      val userIdPattern(userId)        = session
 
       if (extractSessionAttributes.nonEmpty) {
-        val extract = extractSessionAttributes.split(";")
+        val extract = extractSessionAttributes.get.split(";")
         extract.foreach { key =>
           val regex = raw"""$key\s->\s([^,]*)""".r.unanchored
 
           session match {
             case regex(value) => gen.writeObjectField(key, value)
-            case _ =>
+            case _            =>
           }
         }
       }
