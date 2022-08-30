@@ -3,7 +3,7 @@ Request:
 post request: KO jsonPath($.origin).find.is(1.1.1.1), but actually found 2.2.2.2
 =========================
 Session:
-Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@72dcbe5f, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@9646ea9, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> ),KO,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$558/0x000000080065b840@5205309,io.netty.channel.nio.NioEventLoop@3241713e)
+Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@72dcbe5f, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@9646ea9, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> 123),KO,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$558/0x000000080065b840@5205309,io.netty.channel.nio.NioEventLoop@3241713e)
 =========================
 HTTP request:
 POST https://httpbin.org/post

@@ -3,7 +3,7 @@ import com.internetitem.logback.elasticsearch.AbstractElasticsearchAppender
 
 import scala.util.control.Breaks.break
 
-class ElasticGatlingAppender extends AbstractElasticsearchAppender[ILoggingEvent] with ParseGatlingLogSettings {
+class ElasticGatlingAppender extends AbstractElasticsearchAppender[ILoggingEvent] with Settings {
 
   override def buildElasticsearchPublisher(): GatlingElasticPublisher = {
     new GatlingElasticPublisher(getContext, errorReporter, settings, elasticsearchProperties, headers, gatlingLogSettings)

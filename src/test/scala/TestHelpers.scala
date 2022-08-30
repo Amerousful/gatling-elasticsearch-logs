@@ -16,23 +16,23 @@ object TestHelpers {
     Using(Source.fromFile(path))(_.mkString).getOrElse("")
   }
 
-  private def fetchContent(fullMessage: String): String = {
+  private def fetchContent(fullMessage: String, extractSessionAttributes: Option[String]): String = {
     val jsonObjectWriter = new StringWriter
     val generator = factory.createGenerator(jsonObjectWriter)
     generator.useDefaultPrettyPrinter
     generator.writeStartObject()
 
-    httpFields(generator, fullMessage, "gatling.http.cache.baseUrl;gatling.http.cache.dns")
+    httpFields(generator, fullMessage, extractSessionAttributes)
 
     generator.close()
     jsonObjectWriter.toString
   }
 
-  def parseHttpLog(fileName: String) = {
+  def parseHttpLog(fileName: String, extractSessionAttributes: Option[String] = None) = {
     val raw = readFile(fileName)
 
     // via httpFields(...)
-    val parsedContent = fetchContent(raw)
+    val parsedContent = fetchContent(raw, extractSessionAttributes)
 
     // parse and add to map for test
     val parser = factory.createParser(parsedContent)

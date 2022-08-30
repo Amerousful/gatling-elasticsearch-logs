@@ -39,7 +39,7 @@ class HttpLogTests extends AnyFunSuite {
     softAssert(
       withClue("Request name: ")(result("request_name") should be("post request")),
       withClue("Message: ")(result("message") should be("KO jsonPath($.origin).find.is(1.1.1.1), but actually found 2.2.2.2")),
-      withClue("Session: ")(result("session") should be("Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@72dcbe5f, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@9646ea9, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> ),KO,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$558/0x000000080065b840@5205309,io.netty.channel.nio.NioEventLoop@3241713e)")),
+      withClue("Session: ")(result("session") should be("Session(Example scenario,1,Map(gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@72dcbe5f, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@9646ea9, gatling.http.cache.baseUrl -> https://httpbin.org, identifier -> 123),KO,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$558/0x000000080065b840@5205309,io.netty.channel.nio.NioEventLoop@3241713e)")),
       withClue("Method: ")(result("method") should be("POST")),
       withClue("Request body: ")(result("request_body") should be("StringChunksRequestBody{contentType='application/json', charset=UTF-8, content={\n  \"someKey\" : \"someValue\"\n}}")),
       withClue("Request headers: ")(result("request_headers") should be("accept: application/json\nhost: httpbin.org\ncontent-type: application/json\ncontent-length: 29")),
@@ -63,10 +63,12 @@ class HttpLogTests extends AnyFunSuite {
   }
 
   test("Extract Session Attributes") {
-    val result = parseHttpLog("simplePost.txt")
+    val result = parseHttpLog("simplePost.txt",
+      Some("gatling.http.cache.baseUrl;gatling.http.cache.dns;identifier"))
     softAssert(
       withClue("Param[1] gatling.http.cache.baseUrl")(result("gatling.http.cache.baseUrl") should be("https://httpbin.org")),
       withClue("Param[2] gatling.http.cache.dns")(result("gatling.http.cache.dns") should be("io.gatling.http.resolver.ShufflingNameResolver@9646ea9")),
+      withClue("Param[3] identifier")(result("identifier") should be("123")),
     )
   }
 
