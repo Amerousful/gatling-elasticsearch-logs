@@ -29,7 +29,10 @@ class GatlingElasticPublisher(context: Context,
     val message = formatMessageBySize(event.getFormattedMessage)
 
     val wsEvent = event.getLoggerName.contains("io.gatling.http.action.ws")
-    val httpEvent = event.getLoggerName.contains("io.gatling.http.engine.response")
+    val httpEvent = if (gatlingLogSettings.excludeResources.getOrElse(false))
+      event.getLoggerName.equals("io.gatling.http.engine.response.DefaultStatsProcessor")
+    else event.getLoggerName.contains("io.gatling.http.engine.response")
+
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
     if (httpEvent && levelCondition) {

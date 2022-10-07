@@ -134,6 +134,13 @@ class Example extends Simulation {
 
 ***
 
+Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
+```xml
+ <excludeResources>true</excludeResources>
+```
+
+***
+
 ## How it works
 
 The principle of works is to parse logs and then separate them by necessary fields. Currently, the Logger supports only two protocols :

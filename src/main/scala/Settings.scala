@@ -6,4 +6,8 @@ trait Settings {
     gatlingLogSettings.extractSessionAttributes = Some(extractSessionAttributes)
   }
 
+  def setExcludeResources(excludeResources: Boolean): Unit = {
+    gatlingLogSettings.excludeResources = Some(excludeResources)
+  }
+
 }
