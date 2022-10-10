@@ -41,9 +41,8 @@ class GatlingElasticPublisher(context: Context,
     else if (wsEvent && levelCondition) {
       GatlingLogParser.wsFields(gen, message)
     }
-    else if (settings.isRawJsonMessage) {
-      gen.writeFieldName("message")
-      gen.writeRawValue(event.getFormattedMessage)
+    else if (gatlingLogSettings.otherMessages.getOrElse(false)) {
+      gen.writeObjectField("message", message)
     }
 
     if (settings.isIncludeMdc) {

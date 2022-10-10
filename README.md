@@ -93,6 +93,8 @@ Example how to pass the above variable during the run load test:
 mvn gatling:test -DelkUrl=%URL%:%PORT% -DlogLevel=%LEVEL%
 ```
 
+## Flags:
+
 ### Parse Session
 
 Logger can also parse Session attributes and send them to Elasticsearch.
@@ -137,6 +139,13 @@ class Example extends Simulation {
 Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
 ```xml
  <excludeResources>true</excludeResources>
+```
+
+***
+By default, it sends logs only gatling's logs: `http` and `ws`. But you can enable this flag to send everything. It can be useful for some exceptions or additional messages:
+
+```xml
+<otherMessages>true</otherMessages>
 ```
 
 ***
