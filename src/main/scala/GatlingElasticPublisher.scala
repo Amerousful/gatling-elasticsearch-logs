@@ -35,14 +35,10 @@ class GatlingElasticPublisher(context: Context,
 
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
-    if (httpEvent && levelCondition) {
-      GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
-    }
-    else if (wsEvent && levelCondition) {
-      GatlingLogParser.wsFields(gen, message)
-    }
-    else if (gatlingLogSettings.otherMessages.getOrElse(false)) {
-      gen.writeObjectField("message", message)
+    (httpEvent, wsEvent, levelCondition) match {
+      case (true, false, true) => GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
+      case (false, true, true) => GatlingLogParser.wsFields(gen, message)
+      case _ => gen.writeObjectField("message", message)
     }
 
     if (settings.isIncludeMdc) {

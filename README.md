@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.2"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.3"
 ```
 
 ## How to configure `logback.xml`
@@ -139,13 +139,6 @@ class Example extends Simulation {
 Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
 ```xml
  <excludeResources>true</excludeResources>
-```
-
-***
-By default, it sends logs only gatling's logs: `http` and `ws`. But you can enable this flag to send everything. It can be useful for some exceptions or additional messages:
-
-```xml
-<otherMessages>true</otherMessages>
 ```
 
 ***

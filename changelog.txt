@@ -1,3 +1,7 @@
+Changelog 1.3 (11-10-2022)
+----------------------------
+* Refactoring parse condition and remove flag 'otherMessages'
+
 Changelog 1.2 (10-10-2022)
 ----------------------------
 * Flag for send all logs
