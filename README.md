@@ -1,4 +1,4 @@
-# Gatling Elasticsearch Logs
+# Gatling Elasticsearch Logs [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/gatling-elasticsearch-logs/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/gatling-elasticsearch-logs/)
 
 Logger which parse raw Gatling logs and send them to the Elasticsearch.
 
@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.0</version>
+  <version>1.2</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.0"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.2"
 ```
 
 ## How to configure `logback.xml`
