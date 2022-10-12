@@ -32,12 +32,14 @@ class GatlingElasticPublisher(context: Context,
     val httpEvent = if (gatlingLogSettings.excludeResources.getOrElse(false))
       event.getLoggerName.equals("io.gatling.http.engine.response.DefaultStatsProcessor")
     else event.getLoggerName.contains("io.gatling.http.engine.response")
+    val sessionHookEvent = event.getLoggerName.contains("io.gatling.core.action.builder.SessionHookBuilder")
 
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
-    (httpEvent, wsEvent, levelCondition) match {
-      case (true, false, true) => GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
-      case (false, true, true) => GatlingLogParser.wsFields(gen, message)
+    (httpEvent, wsEvent, levelCondition, sessionHookEvent) match {
+      case (true, false, true, false) => GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
+      case (false, true, true, false) => GatlingLogParser.wsFields(gen, message)
+      case (false, false, false, true) => GatlingLogParser.sessionFields(gen, message, extractSessionAttributes)
       case _ => gen.writeObjectField("message", message)
     }
 

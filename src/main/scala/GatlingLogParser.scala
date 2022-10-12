@@ -97,4 +97,38 @@ object GatlingLogParser {
     gen.writeObjectField("protocol", "ws")
   }
 
+  def sessionFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String] = None): Unit = {
+    val messagePattern = """(.*?)\sSession.*\)(.*)""".r.unanchored
+    val sessionPattern = """(Session.*\))""".r.unanchored
+    val scenarioNamePattern = """Session\((.*?),""".r.unanchored
+
+    val sessionPattern(session) = fullMessage
+    val scenarioNamePattern(scenario) = session
+
+    val userIdPattern = s"""$scenario,(\\d+),""".r.unanchored
+    val userIdPattern(userId) = session
+
+    extractSessionAttributes match {
+      case Some(attributes) if attributes.nonEmpty =>
+        val extract = attributes.split(";")
+        extract.foreach { key =>
+          val regex = raw"""$key\s->\s([^,)]*)""".r.unanchored
+
+          session match {
+            case regex(value) => gen.writeObjectField(key, value)
+            case _ =>
+          }
+        }
+      case _ =>
+    }
+
+    val s"${messagePattern(firstPart, secondPart)}" = fullMessage
+    val message = firstPart + secondPart
+
+    gen.writeObjectField("message", message)
+    gen.writeObjectField("session", session)
+    gen.writeObjectField("scenario", scenario)
+    gen.writeObjectField("userId", userId)
+  }
+
 }

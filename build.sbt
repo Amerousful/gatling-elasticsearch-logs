@@ -1,6 +1,6 @@
 name := "gatling-elasticsearch-logs"
 
-version := "1.3"
+version := "1.4"
 
 scalaVersion := "2.13.8"
 

@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.3</version>
+  <version>1.4</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.3"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.4"
 ```
 
 ## How to configure `logback.xml`
@@ -145,10 +145,11 @@ Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
 
 ## How it works
 
-The principle of works is to parse logs and then separate them by necessary fields. Currently, the Logger supports only two protocols :
+The principle of works is to parse logs and then separate them by necessary fields. Currently, the Logger supports :
 
 - HTTP
 - WebSocket
+- SessionHookBuilder
 
 
 Example of how the Logger parsing a raw log by fields:
