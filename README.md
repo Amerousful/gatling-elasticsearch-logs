@@ -145,7 +145,7 @@ Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
 
 ## How it works
 
-The principle of works is to parse logs and then separate them by necessary fields. Currently, the Logger supports :
+The principle of works is to parse logs and then separate them by necessary fields. Currently, the Logger supports:
 
 - HTTP
 - WebSocket
