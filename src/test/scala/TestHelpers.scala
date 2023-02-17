@@ -1,4 +1,4 @@
-import GatlingLogParser.httpFields
+import GatlingLogParser.{httpFields, wsFields}
 import com.fasterxml.jackson.core.{JsonFactory, JsonToken}
 
 import java.io.StringWriter
@@ -16,23 +16,28 @@ object TestHelpers {
     Using(Source.fromFile(path))(_.mkString).getOrElse("")
   }
 
-  private def fetchContent(fullMessage: String, extractSessionAttributes: Option[String]): String = {
+  private def fetchContent(fullMessage: String, extractSessionAttributes: Option[String], parserType: String): String = {
     val jsonObjectWriter = new StringWriter
     val generator = factory.createGenerator(jsonObjectWriter)
     generator.useDefaultPrettyPrinter
     generator.writeStartObject()
 
-    httpFields(generator, fullMessage, extractSessionAttributes)
+    parserType match {
+      case "http" => httpFields(generator, fullMessage, extractSessionAttributes)
+      case "ws" => wsFields(generator, fullMessage, extractSessionAttributes)
+    }
 
     generator.close()
     jsonObjectWriter.toString
   }
 
-  def parseHttpLog(fileName: String, extractSessionAttributes: Option[String] = None) = {
+  def parseHttpLog(fileName: String, extractSessionAttributes: Option[String] = None, parserType: String = "http") = {
     val raw = readFile(fileName)
 
-    // via httpFields(...)
-    val parsedContent = fetchContent(raw, extractSessionAttributes)
+    val parsedContent = parserType match {
+      case "http" => fetchContent(raw, extractSessionAttributes, "http")
+      case "ws" => fetchContent(raw, extractSessionAttributes, "ws")
+    }
 
     // parse and add to map for test
     val parser = factory.createParser(parsedContent)

@@ -1,0 +1,22 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+WS: Send Auth: KO Check timeout
+=========================
+Session:
+Session(Example scenario,1,HashMap(gatling.http.cache.wsBaseUrl -> wss://mm-websocket.site.com, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@3e6f4720, gatling.http.webSocket -> io.gatling.http.action.ws.fsm.WsFsm@530baf68, gatling.http.cookies -> CookieJar(Map(CookieKey(awsalbapp-0,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-0=_remove_, path=/, maxAge=604800s,true,true,1676562638435), CookieKey(awsalbapp-1,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-1=_remove_, path=/, maxAge=604800s,true,true,1676562638435), CookieKey(awsalbapp-2,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-2=_remove_, path=/, maxAge=604800s,true,true,1676562638435), CookieKey(awsalbapp-3,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-3=_remove_, path=/, maxAge=604800s,true,true,1676562638435))), simulation -> example, gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@731da136),OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$574/0x00000008006c7840@470039f4,io.netty.channel.nio.NioEventLoop@2227a6c1)
+=========================
+WebSocket check:
+Wait DELETED
+=========================
+WebSocket request:
+{"auth":{"userId":123}}
+=========================
+WebSocket received messages:
+17:50:41.612 [0] -> {"type":"EXPORT_PROCESS","status":"DISPATCHED"}
+17:50:41.741 [1] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:41.830 [2] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:42.073 [3] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.209 [4] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.379 [5] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.437 [6] -> {"type":"EXPORT_PROCESS","status":"COMPLETED"}
+<<<<<<<<<<<<<<<<<<<<<<<<<

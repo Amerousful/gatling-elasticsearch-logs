@@ -2,8 +2,9 @@ import com.fasterxml.jackson.core.JsonGenerator
 
 object GatlingLogParser {
 
+  private val separator = "========================="
+
   def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String] = None): Unit = {
-    val separator = "========================="
 
     // Gatling since 3.4.2 write two logs instead one.
     // First log only with message.
@@ -92,9 +93,68 @@ object GatlingLogParser {
     }
   }
 
-  def wsFields(gen: JsonGenerator, fullMessage: String): Unit = {
-    gen.writeObjectField("message", fullMessage)
-    gen.writeObjectField("protocol", "ws")
+  def wsFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String] = None): Unit = {
+
+    // Gatling since 3.4.2 write two logs instead one.
+    // First log only with message.
+    if (!fullMessage.contains(separator)) {
+      gen.writeObjectField("message", fullMessage)
+    }
+    else {
+      val partOfMessage = fullMessage.split(separator)
+      val infoPart = partOfMessage(0)
+      val sessionPart = partOfMessage(1)
+      val checkPart = partOfMessage(2)
+      val requestPart = partOfMessage(3)
+      val responsePart = partOfMessage(4)
+
+      val firstPattern = """Request:\n(.*):\s(.*)""".r.unanchored
+      val secondPattern = """Session:\n(.*)""".r.unanchored
+      val sessionNamePattern = """Session\((.*?),""".r.unanchored
+      val checkNamePattern = """WebSocket check:\n(.*)""".r.unanchored
+      val requestPattern = """WebSocket request:\n(.*)""".r.unanchored
+      val receivedPattern = """WebSocket received messages:\n([\s\S]*)\n""".r.unanchored
+
+
+      val secondPattern(session) = sessionPart
+      val checkNamePattern(checkName) = checkPart
+      val requestPattern(requestBody) = requestPart
+      val receivedPattern(responseBody) = responsePart
+      val firstPattern(requestName, messageRaw) = infoPart
+      val message = messageRaw.trim
+
+      val urlRegex = """gatling\.http\.cache\.wsBaseUrl\s->\s([^,)]*)""".r.unanchored
+      val urlRegex(url) = session
+
+      val sessionNamePattern(scenario) = session
+      val userIdPattern = s"""$scenario,(\\d+),""".r.unanchored
+      val userIdPattern(userId) = session
+
+      extractSessionAttributes match {
+        case Some(attributes) if attributes.nonEmpty =>
+          val extract = attributes.split(";")
+          extract.foreach { key =>
+            val regex = raw"""$key\s->\s([^,)]*)""".r.unanchored
+
+            session match {
+              case regex(value) => gen.writeObjectField(key, value)
+              case _ =>
+            }
+          }
+        case _ =>
+      }
+
+      gen.writeObjectField("message", message)
+      gen.writeObjectField("url", url)
+      gen.writeObjectField("request_body", requestBody)
+      gen.writeObjectField("response_body", responseBody)
+      gen.writeObjectField("check_name", checkName)
+      gen.writeObjectField("session", session)
+      gen.writeObjectField("scenario", scenario)
+      gen.writeObjectField("userId", userId)
+      gen.writeObjectField("request_name", requestName)
+      gen.writeObjectField("protocol", "ws")
+    }
   }
 
   def sessionFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String] = None): Unit = {

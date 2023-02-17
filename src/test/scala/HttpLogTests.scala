@@ -72,4 +72,23 @@ class HttpLogTests extends AnyFunSuite {
     )
   }
 
+  test("Extract WS") {
+    val result = parseHttpLog("ws.txt", parserType = "ws")
+    softAssert(
+      withClue("Message: ")(result("message") should be("KO Check timeout")),
+      withClue("Url: ")(result("url") should be("wss://mm-websocket.site.com")),
+      withClue("Request body: ")(result("request_body") should be("""{"auth":{"userId":123}}""")),
+      withClue("Response body: ")(result("response_body") should be(
+        """17:50:41.612 [0] -> {"type":"EXPORT_PROCESS","status":"DISPATCHED"}
+          |17:50:41.741 [1] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+          |17:50:41.830 [2] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+          |17:50:42.073 [3] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+          |17:50:44.209 [4] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+          |17:50:44.379 [5] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+          |17:50:44.437 [6] -> {"type":"EXPORT_PROCESS","status":"COMPLETED"}""".stripMargin)),
+      withClue("Check name: ")(result("check_name") should be("Wait DELETED")),
+      withClue("Protocol: ")(result("protocol") should be("ws")),
+    )
+  }
+
 }
