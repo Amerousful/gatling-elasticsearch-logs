@@ -1,3 +1,7 @@
+Changelog 1.5.1 (21-02-2023)
+----------------------------
+* Fix WS for message without check
+
 Changelog 1.5 (17-02-2023)
 ----------------------------
 * Full support for Websocket

@@ -91,4 +91,16 @@ class HttpLogTests extends AnyFunSuite {
     )
   }
 
+  test("Extract WS w/o check") {
+    val result = parseHttpLog("wsWithoutCheck.txt", parserType = "ws")
+    softAssert(
+      withClue("Message: ")(result("message") should be("OK")),
+      withClue("Url: ")(result("url") should be("wss://mm-websocket.site.com")),
+      withClue("Request body: ")(result("request_body") should be("""{"auth":{"userId":123}}""")),
+      withClue("Response body: ")(result("response_body") should be("%empty%")),
+      withClue("Check name: ")(result("check_name") should be("%empty%")),
+      withClue("Protocol: ")(result("protocol") should be("ws")),
+    )
+  }
+
 }

@@ -102,11 +102,6 @@ object GatlingLogParser {
     }
     else {
       val partOfMessage = fullMessage.split(separator)
-      val infoPart = partOfMessage(0)
-      val sessionPart = partOfMessage(1)
-      val checkPart = partOfMessage(2)
-      val requestPart = partOfMessage(3)
-      val responsePart = partOfMessage(4)
 
       val firstPattern = """Request:\n(.*):\s(.*)""".r.unanchored
       val secondPattern = """Session:\n(.*)""".r.unanchored
@@ -115,12 +110,27 @@ object GatlingLogParser {
       val requestPattern = """WebSocket request:\n(.*)""".r.unanchored
       val receivedPattern = """WebSocket received messages:\n([\s\S]*)\n""".r.unanchored
 
+      val wsLog: WsLog = partOfMessage.length match {
+        // for request without check and response body
+        case 4 => WsLog(partOfMessage(0), partOfMessage(1), None, partOfMessage(2), None)
+        case 5 => WsLog(partOfMessage(0), partOfMessage(1), Some(partOfMessage(2)), partOfMessage(3), Some(partOfMessage(4)))
+        case _ => throw new RuntimeException(s"Failed to parse WS log: ${fullMessage}")
+      }
 
-      val secondPattern(session) = sessionPart
-      val checkNamePattern(checkName) = checkPart
-      val requestPattern(requestBody) = requestPart
-      val receivedPattern(responseBody) = responsePart
-      val firstPattern(requestName, messageRaw) = infoPart
+      val secondPattern(session) = wsLog.sessionPart
+
+      val checkName = wsLog.checkPart.getOrElse("") match {
+        case checkNamePattern(result) => result
+        case _ => "%empty%"
+      }
+
+      val responseBody = wsLog.responsePart.getOrElse("") match {
+        case receivedPattern(result) => result
+        case _ => "%empty%"
+      }
+
+      val requestPattern(requestBody) = wsLog.requestPart
+      val firstPattern(requestName, messageRaw) = wsLog.infoPart
       val message = messageRaw.trim
 
       val urlRegex = """gatling\.http\.cache\.wsBaseUrl\s->\s([^,)]*)""".r.unanchored

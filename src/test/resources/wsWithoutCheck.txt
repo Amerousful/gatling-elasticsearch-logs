@@ -1,0 +1,12 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+send: OK
+=========================
+Session:
+Session(Example scenario,1,HashMap(gatling.http.cache.wsBaseUrl -> wss://mm-websocket.site.com, gatling.http.cache.dns -> io.gatling.http.resolver.ShufflingNameResolver@16d27311, gatling.http.webSocket -> io.gatling.http.action.ws.fsm.WsFsm@7f30b1d9, gatling.http.cookies -> CookieJar(Map(CookieKey(awsalbapp-0,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-0=_remove_, path=/, maxAge=604800s,true,true,1676973873417), CookieKey(awsalbapp-1,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-1=_remove_, path=/, maxAge=604800s,true,true,1676973873417), CookieKey(awsalbapp-2,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-2=_remove_, path=/, maxAge=604800s,true,true,1676973873417), CookieKey(awsalbapp-3,mm-websocket.site.com,/) -> StoredCookie(AWSALBAPP-3=_remove_, path=/, maxAge=604800s,true,true,1676973873417))), simulation -> example, gatling.http.ssl.sslContexts -> io.gatling.http.util.SslContexts@759335cf),OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$550/0x00000008006b4040@37b2d1fe,io.netty.channel.nio.NioEventLoop@79ab34c1)
+=========================
+WebSocket request:
+{"auth":{"userId":123}}
+=========================
+WebSocket received messages:
+<<<<<<<<<<<<<<<<<<<<<<<<<
