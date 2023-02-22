@@ -1,3 +1,7 @@
+Changelog 1.5.2 (22-02-2023)
+----------------------------
+* Fix WS doesn't extract session attribute
+
 Changelog 1.5.1 (21-02-2023)
 ----------------------------
 * Fix WS for message without check
