@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.5.1</version>
+  <version>1.5.2</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.5.1"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.5.2"
 ```
 
 ## How to configure `logback.xml`
@@ -65,6 +65,7 @@ I provide minimal configuration, but you can add additional things what you need
     </appender>
 
     <logger name="io.gatling.http.engine.response" level="${logLevel}"/>
+    <logger name="io.gatling.http.action.ws.fsm.WsLogger" level="${logLevel}"/>
 
     <appender name="ASYNC ELK" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="ELASTIC"/>
