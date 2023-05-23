@@ -99,7 +99,7 @@ mvn gatling:test -DelkUrl=%URL%:%PORT% -DlogLevel=%LEVEL%
 ### Parse Session
 
 Logger can also parse Session attributes and send them to Elasticsearch.
-As an example, your test might contain some entity id: userId, serverId, etc. It's useful for filtering data.
+As an example, your test might contain some entity id: `userId`, `serverId`, etc. It's useful for filtering data.
 Here is what you need to add to the appender:
 
 ```xml
