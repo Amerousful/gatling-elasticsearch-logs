@@ -1,5 +1,5 @@
 import ch.qos.logback.classic.spi.ILoggingEvent
-import com.internetitem.logback.elasticsearch.AbstractElasticsearchAppender
+import com.agido.logback.elasticsearch.AbstractElasticsearchAppender
 
 import scala.util.control.Breaks.break
 

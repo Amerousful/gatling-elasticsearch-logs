@@ -78,7 +78,7 @@ I provide minimal configuration, but you can add additional things what you need
 </configuration>
 ```
 ***
-This logger based on https://github.com/internetitem/logback-elasticsearch-appender which is directly responsible for sending to Elasticsearch.
+This logger based on https://github.com/agido-malter/logback-elasticsearch-appender which is directly responsible for sending to Elasticsearch.
 There you can find some addition and useful options related with sending
 ***
 

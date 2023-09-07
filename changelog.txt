@@ -1,3 +1,7 @@
+Changelog 1.5.3 (07-09-2023)
+----------------------------
+* Replace outdated logback-elasticsearch-appender with the new one
+
 Changelog 1.5.2 (22-02-2023)
 ----------------------------
 * Fix WS doesn't extract session attribute

@@ -1,11 +1,12 @@
 import ch.qos.logback.classic.Level.{DEBUG, TRACE}
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.Context
+import com.agido.logback.elasticsearch.util.ErrorReporter
 import com.fasterxml.jackson.core.JsonGenerator
-import com.internetitem.logback.elasticsearch.AbstractElasticsearchPublisher
-import com.internetitem.logback.elasticsearch.AbstractElasticsearchPublisher.getTimestamp
-import com.internetitem.logback.elasticsearch.config.{ElasticsearchProperties, HttpRequestHeaders, Property, Settings}
-import com.internetitem.logback.elasticsearch.util.{AbstractPropertyAndEncoder, ClassicPropertyAndEncoder, ErrorReporter}
+import com.agido.logback.elasticsearch.AbstractElasticsearchPublisher
+import com.agido.logback.elasticsearch.AbstractElasticsearchPublisher.getTimestamp
+import com.agido.logback.elasticsearch.config.{ElasticsearchProperties, HttpRequestHeaders, Property, Settings}
+import com.agido.logback.elasticsearch.util.{AbstractPropertyAndEncoder, ClassicPropertyAndEncoder, ErrorReporter}
 
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
