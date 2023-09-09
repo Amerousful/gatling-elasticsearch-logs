@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.5.2</version>
+  <version>1.5.3</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.5.2"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.5.3"
 ```
 
 ## How to configure `logback.xml`
@@ -55,6 +55,7 @@ I provide minimal configuration, but you can add additional things what you need
         <index>gatling-%date{yyyy.MM.dd}</index>
         <type>gatling</type>
         <errorsToStderr>true</errorsToStderr>
+        <operation>index</operation>
 
         <headers>
             <header>
@@ -155,6 +156,7 @@ The principle of works is to parse logs and then separate them by necessary fiel
 
 Example of how the Logger parsing a raw log by fields:
 
+### __HTTP__:
 ### Raw log:
 ```text
 >>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -215,6 +217,46 @@ body:
 | scenario         | Example scenario                                                                                                                                                                                                                                                                                                                                                                                                 |
 | userId           | 1                                                                                                                                                                                                                                                                                                                                                                                                                |
 
+***
+### __WebSocket__:
+### Raw log:
+```text
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+Send Auth: KO Check timeout
+=========================
+Session:
+Session(Example scenario,1,HashMap(gatling.http.cache.wsBaseUrl -> wss://mm-websocket.site.com, ...)
+=========================
+WebSocket check:
+Wait DELETED
+=========================
+WebSocket request:
+{"auth":{"userId":123}}
+=========================
+WebSocket received messages:
+17:50:41.612 [0] -> {"type":"EXPORT_PROCESS","status":"DISPATCHED"}
+17:50:41.741 [1] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:41.830 [2] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:42.073 [3] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.209 [4] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.379 [5] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}
+17:50:44.437 [6] -> {"type":"EXPORT_PROCESS","status":"COMPLETED"}
+<<<<<<<<<<<<<<<<<<<<<<<<<
+```
+### Result:
+
+| Field name        | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|:------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| request_name      | Send Auth: KO Check timeout                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| message           | KO Check timeout                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| session           | Session(Example scenario,1,HashMap(gatling.http.cache.wsBaseUrl -> wss://mm-websocket.site.com, ...)                                                                                                                                                                                                                                                                                                                                                                                               | 
+| request_body      | {"auth":{"userId":123}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| url               | wss://mm-websocket.site.com                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| response_body     | 17:50:41.612 [0] -> {"type":"EXPORT_PROCESS","status":"DISPATCHED"}<br>17:50:41.741 [1] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}<br>17:50:41.830 [2] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}<br>17:50:42.073 [3] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}<br>17:50:44.209 [4] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}<br>17:50:44.379 [5] -> {"type":"EXPORT_PROCESS","status":"RECEIVED"}<br>17:50:44.437 [6] -> {"type":"EXPORT_PROCESS","status":"COMPLETED"} |
+| protocol          | ws                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| check_name        | Wait DELETED                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| userId            | 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 ## Grafana
 
