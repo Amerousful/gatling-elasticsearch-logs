@@ -25,7 +25,7 @@ Add to your `pom.xml`
 <dependency>
   <groupId>io.github.amerousful</groupId>
   <artifactId>gatling-elasticsearch-logs</artifactId>
-  <version>1.5.3</version>
+  <version>1.6</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Add to your `pom.xml`
 Add to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.5.3"
+libraryDependencies += "io.github.amerousful" % "gatling-elasticsearch-logs" % "1.6"
 ```
 
 ## How to configure `logback.xml`

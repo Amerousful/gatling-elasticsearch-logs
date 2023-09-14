@@ -1,3 +1,8 @@
+Changelog 1.6 (14-09-2023)
+----------------------------
+* Technical release for 1.5.3
+* Update logback version
+
 Changelog 1.5.3 (07-09-2023)
 ----------------------------
 * Replace outdated logback-elasticsearch-appender with the new one
