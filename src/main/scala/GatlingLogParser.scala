@@ -107,7 +107,7 @@ object GatlingLogParser {
       val secondPattern = """Session:\n(.*)""".r.unanchored
       val sessionNamePattern = """Session\((.*?),""".r.unanchored
       val checkNamePattern = """WebSocket check:\n(.*)""".r.unanchored
-      val requestPattern = """WebSocket request:\n(.*)""".r.unanchored
+      val requestPattern = """WebSocket request:\n([\s\S]*)\n""".r.unanchored
       val receivedPattern = """WebSocket received messages:\n([\s\S]*)\n""".r.unanchored
 
       val wsLog: WsLog = partOfMessage.length match {
