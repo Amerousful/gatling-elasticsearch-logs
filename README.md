@@ -1,4 +1,4 @@
-# Gatling Elasticsearch Logs [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/gatling-elasticsearch-logs/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.amerousful/gatling-elasticsearch-logs/)
+# Gatling Elasticsearch Logs
 
 Logger which parses raw Gatling logs and sends them to the Elasticsearch.
 
