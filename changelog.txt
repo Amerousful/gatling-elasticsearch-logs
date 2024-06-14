@@ -1,3 +1,7 @@
+Changelog 1.6.2 (14-06-2024)
+----------------------------
+* Update Logback Elasticsearch Appender ^3.0.11
+
 Changelog 1.6.1 (26-09-2023)
 ----------------------------
 * Fix regex for WS request payload (newline)
