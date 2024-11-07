@@ -268,6 +268,8 @@ Example of a graph which based on these logs
 ![Grafana example](https://user-images.githubusercontent.com/22199881/187403299-90f42a4b-360c-48b4-8bb9-7b6cd9152201.png)
 
 
+## Schema
+![Untitled Diagram drawiosasasa](https://github.com/user-attachments/assets/0917fb66-cabd-4b5b-85a6-681a1f64f912)
 
 
 
