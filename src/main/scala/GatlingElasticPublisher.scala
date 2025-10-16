@@ -4,7 +4,6 @@ import ch.qos.logback.core.Context
 import com.agido.logback.elasticsearch.util.ErrorReporter
 import com.fasterxml.jackson.core.JsonGenerator
 import com.agido.logback.elasticsearch.AbstractElasticsearchPublisher
-import com.agido.logback.elasticsearch.AbstractElasticsearchPublisher.getTimestamp
 import com.agido.logback.elasticsearch.config.{ElasticsearchProperties, HttpRequestHeaders, Property, Settings}
 import com.agido.logback.elasticsearch.util.{AbstractPropertyAndEncoder, ClassicPropertyAndEncoder, ErrorReporter}
 

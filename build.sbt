@@ -1,11 +1,11 @@
 name := "gatling-elasticsearch-logs"
 
-version := "1.6.2"
+version := "1.6.3"
 
 scalaVersion := "2.13.8"
 
 libraryDependencies ++= Seq(
-  "com.agido" % "logback-elasticsearch-appender" % "3.0.11",
+  "com.agido" % "logback-elasticsearch-appender" % "3.0.17",
   "ch.qos.logback" % "logback-classic" % "1.4.7",
   "ch.qos.logback" % "logback-core" % "1.4.7",
   "org.scalatest" %% "scalatest" % "3.2.15" % "test"
