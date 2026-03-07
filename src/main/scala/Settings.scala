@@ -10,4 +10,8 @@ trait Settings {
     gatlingLogSettings.excludeResources = Some(excludeResources)
   }
 
+  def setExtractServerTimings(extractServerTimings: Boolean): Unit = {
+    gatlingLogSettings.extractServerTimings = Some(extractServerTimings)
+  }
+
 }

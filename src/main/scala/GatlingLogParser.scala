@@ -4,7 +4,10 @@ object GatlingLogParser {
 
   private val separator = "========================="
 
-  def httpFields(gen: JsonGenerator, fullMessage: String, extractSessionAttributes: Option[String] = None): Unit = {
+  def httpFields(gen: JsonGenerator, fullMessage: String,
+                 extractSessionAttributes: Option[String] = None,
+                 extractServerTimings: Option[Boolean] = Some(false)
+                ): Unit = {
 
     // Gatling since 3.4.2 write two logs instead one.
     // First log only with message.
@@ -58,6 +61,15 @@ object GatlingLogParser {
         case _ => "%empty%"
       }
       val responseHeaders = responseHeadersRaw.replaceAll("\t", "")
+
+      if(extractServerTimings.getOrElse(false)) {
+        val serverTimings = responseHeaders.linesIterator
+          .filter(i => i.contains("Server-Timing"))
+          .map(i => i.split("Server-Timing: ")(1))
+          .mkString(", ")
+
+        gen.writeObjectField("server_timings", serverTimings)
+      }
 
       val sessionNamePattern(scenario) = session
       val userIdPattern = s"""$scenario,(\\d+),""".r.unanchored

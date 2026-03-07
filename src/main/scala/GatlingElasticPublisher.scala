@@ -25,6 +25,7 @@ class GatlingElasticPublisher(context: Context,
     gen.writeObjectField("@timestamp", getTimestamp(event.getTimeStamp))
 
     val extractSessionAttributes = gatlingLogSettings.extractSessionAttributes
+    val extractServerTimings = gatlingLogSettings.extractServerTimings
 
     val message = formatMessageBySize(event.getFormattedMessage)
 
@@ -37,7 +38,7 @@ class GatlingElasticPublisher(context: Context,
     val levelCondition = event.getLevel == DEBUG || event.getLevel == TRACE
 
     (httpEvent, wsEvent, levelCondition, sessionHookEvent) match {
-      case (true, false, true, false) => GatlingLogParser.httpFields(gen, message, extractSessionAttributes)
+      case (true, false, true, false) => GatlingLogParser.httpFields(gen, message, extractSessionAttributes, extractServerTimings)
       case (false, true, true, false) => GatlingLogParser.wsFields(gen, message, extractSessionAttributes)
       case (false, false, false, true) => GatlingLogParser.sessionFields(gen, message, extractSessionAttributes)
       case _ => gen.writeObjectField("message", message)
