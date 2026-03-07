@@ -16,14 +16,14 @@ object TestHelpers {
     Using(Source.fromFile(path))(_.mkString).getOrElse("")
   }
 
-  private def fetchContent(fullMessage: String, extractSessionAttributes: Option[String], parserType: String): String = {
+  private def fetchContent(fullMessage: String, extractSessionAttributes: Option[String], parserType: String, extractServerTimings: Option[Boolean]): String = {
     val jsonObjectWriter = new StringWriter
     val generator = factory.createGenerator(jsonObjectWriter)
     generator.useDefaultPrettyPrinter
     generator.writeStartObject()
 
     parserType match {
-      case "http" => httpFields(generator, fullMessage, extractSessionAttributes)
+      case "http" => httpFields(generator, fullMessage, extractSessionAttributes, extractServerTimings)
       case "ws" => wsFields(generator, fullMessage, extractSessionAttributes)
     }
 
@@ -31,12 +31,12 @@ object TestHelpers {
     jsonObjectWriter.toString
   }
 
-  def parseHttpLog(fileName: String, extractSessionAttributes: Option[String] = None, parserType: String = "http") = {
+  def parseHttpLog(fileName: String, extractSessionAttributes: Option[String] = None, parserType: String = "http", extractServerTimings: Option[Boolean] = None) = {
     val raw = readFile(fileName)
 
     val parsedContent = parserType match {
-      case "http" => fetchContent(raw, extractSessionAttributes, "http")
-      case "ws" => fetchContent(raw, extractSessionAttributes, "ws")
+      case "http" => fetchContent(raw, extractSessionAttributes, "http", extractServerTimings)
+      case "ws" => fetchContent(raw, extractSessionAttributes, "ws", None)
     }
 
     // parse and add to map for test

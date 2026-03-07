@@ -103,4 +103,10 @@ class HttpLogTests extends AnyFunSuite {
     )
   }
 
+  test("Server Timings") {
+    val result = parseHttpLog("serverTimings.txt", extractServerTimings = Some(true))
+
+    withClue("Server Timings: ")(result("server_timings") should be("""edge; dur=5, origin; dur=199, cdn-cache; desc=MISS, ak_p; desc="1772635282699_34901524_193370811_20311_6627_37_55_-";dur=1"""))
+  }
+
 }
