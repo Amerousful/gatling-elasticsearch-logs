@@ -136,11 +136,24 @@ class Example extends Simulation {
 }
 ```
 
-***
 
+
+### Failed resources
 Exclude logs from failed resources in silent mode (`NoopStatsProcessor`):
 ```xml
  <excludeResources>true</excludeResources>
+```
+
+### Server-Timing header
+Extract `Server-Timing` header. It's useful since it provides direct visibility into server-side performance metrics. See the [documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Server-Timing) for a detailed overview.
+```xml
+ <extractServerTimings>true</extractServerTimings>
+```
+
+```text
+Server-Timing: cache;desc="Cache Read";dur=23.2
+
+Server-Timing: db;dur=53, app;dur=47.2
 ```
 
 ***
