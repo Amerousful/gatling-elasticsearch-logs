@@ -62,13 +62,14 @@ object GatlingLogParser {
       }
       val responseHeaders = responseHeadersRaw.replaceAll("\t", "")
 
-      if(extractServerTimings.getOrElse(false)) {
+      if (extractServerTimings.getOrElse(false)) {
         val serverTimings = responseHeaders.linesIterator
           .filter(i => i.contains("Server-Timing"))
           .map(i => i.split("Server-Timing: ")(1))
           .mkString(", ")
 
-        gen.writeObjectField("server_timings", serverTimings)
+        if (serverTimings.nonEmpty)
+          gen.writeObjectField("server_timings", serverTimings)
       }
 
       val sessionNamePattern(scenario) = session
